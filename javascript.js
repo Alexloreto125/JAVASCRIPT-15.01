@@ -83,6 +83,7 @@ class Pet {
     this.species = _species;
     this.breed = _breed;
   }
+
   sameOwner(anotherPet) {
     return this.ownerName === anotherPet.ownerName;
   }
@@ -93,9 +94,13 @@ const fillListWithItems = function () {
 
   petListUl.innerHTML = "";
 
-  pets.forEach((pet) => {
+  pets.forEach((pet, index, array) => {
     const newLi = document.createElement("li");
-    newLi.textContent = `Name: ${pet.petName}, Owner: ${pet.ownerName}, Species: ${pet.species}, Breed: ${pet.breed}`;
+    newLi.textContent = `Nome: ${pet.petName}, Proprietario: ${
+      pet.ownerName
+    }, Specie: ${pet.species}, Razza: ${
+      pet.breed
+    }, Condivide proprietario: ${confrontaProprietari(pet, array)}`;
 
     petListUl.appendChild(newLi);
   });
@@ -105,6 +110,15 @@ const fillListWithItems = function () {
   speciesInput.value = "";
   breedInput.value = "";
 };
+
+function confrontaProprietari(pet, array) {
+  for (let i = 0; i < array.length; i++) {
+    if (pet !== array[i] && pet.sameOwner(array[i])) {
+      return "true";
+    }
+  }
+  return "false";
+}
 
 const formReference = document.getElementById("petForm");
 formReference.addEventListener("submit", function (e) {
